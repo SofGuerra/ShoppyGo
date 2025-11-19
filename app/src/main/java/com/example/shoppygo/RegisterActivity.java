@@ -7,6 +7,8 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,7 +25,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText emailEditText, passwordEditText, confirmPassEditText;
+    RadioGroup accounttype;
+    EditText emailEditText, passwordEditText, confirmPassEditText, companynameregister;
     Button registrationbtn, loginbtn;
     FirebaseAuth firebaseAuth;
 
@@ -33,15 +36,24 @@ public class RegisterActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
 
-
+        accounttype = findViewById(R.id.accounttype);
         emailEditText = findViewById(R.id.emailregister);
         passwordEditText = findViewById(R.id.passwordregister);
         confirmPassEditText = findViewById(R.id.confirmpasswordregister);
+        companynameregister = findViewById(R.id.companynameregister);
 
         registrationbtn = findViewById(R.id.registerbtn);
         loginbtn = findViewById(R.id.loginregbtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        accounttype.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.seller) {
+                companynameregister.setVisibility(View.VISIBLE);
+            } else {
+                companynameregister.setVisibility(View.GONE);
+            }
+        });
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +72,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    //Write my method
+
     private void registerUser() {
         String email = emailEditText.getText().toString().trim();
         String pass = passwordEditText.getText().toString().trim();
         String confirmPass = confirmPassEditText.getText().toString().trim();
+        String companyname = companynameregister.getText().toString().trim(); //ESTA. COMO LA GUARDO EN DB
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(confirmPass)) {
             Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
@@ -89,14 +102,31 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        int type = accounttype.getCheckedRadioButtonId();
+        if (type == -1) {
+            Toast.makeText(RegisterActivity.this, "Please select an account type", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String account = ((RadioButton)findViewById(type)).getText().toString();
+        if (account.equals("Seller")) {
+            if (companyname.isEmpty()){
+                Toast.makeText(RegisterActivity.this, "Please enter the company name", Toast.LENGTH_SHORT).show();
+            }
+        }
         //if i am here it means
         firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(RegisterActivity.this, "success register", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(RegisterActivity.this, SellerDashboard.class));
-                    finish();
+                    if (!companyname.isEmpty()) {
+                        startActivity(new Intent(RegisterActivity.this, SellerDashboard.class));
+                        finish();
+                    } else {
+//                        startActivity(new Intent(RegisterActivity.this, UserDashboard.class));
+                        finish();
+                    }
                 } else {
                     Toast.makeText(RegisterActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }

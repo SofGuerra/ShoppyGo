@@ -30,12 +30,21 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/SelectImagebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add image"
+        android:backgroundTint="@color/green"
+        android:layout_gravity="end"/>
+
     <EditText
         android:id="@+id/addproductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="5dp"
+        android:inputType="text"
         android:hint="Product Name"
         android:textStyle="bold"/>
 
@@ -53,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="5dp"
+        android:inputType="numberDecimal"
         android:hint="$99.99"
         android:textSize="25dp"/>
 
@@ -65,13 +75,54 @@
         android:textStyle="bold"/>
 
     <LinearLayout
-        android:id="@+id/addcolorPalette"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp"/>
-<!--    PREGUNTAR COMO PONER LOS CUADROS DE COLOR-->
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/addcolorWhite"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorBlack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorBrown"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorGreen"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorGray"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorBeige"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"

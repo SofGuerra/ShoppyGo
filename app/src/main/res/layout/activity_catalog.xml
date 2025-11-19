@@ -29,12 +29,11 @@ android:orientation="vertical">
     android:layout_below="@+id/Catalog"
     android:layout_alignParentEnd="true"/>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/productinfo"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_below="@id/addproduct"/>
-
+    <ListView
+        android:id="@+id/productinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/addproduct"/>
 
 </RelativeLayout>

@@ -65,13 +65,55 @@
         android:textStyle="bold"/>
 
     <LinearLayout
-        android:id="@+id/addcolorPalette"
+        android:id="@+id/colorPalette"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="8dp"/>
-<!--    PREGUNTAR COMO PONER MAS O MENOS CUADROS DE COLOR-->
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/colorWhite"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBlack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBrown"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorGreen"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorGray"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBeige"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
