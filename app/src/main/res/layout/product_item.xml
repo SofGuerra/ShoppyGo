@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/imageProd"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/imageProd2"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="9dp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/productName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/productRef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:id="@+id/productPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Available Colors: "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/colorWhite"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBlack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBrown"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorGreen"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorGray"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBeige"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Sizes: "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/xs"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="XS"/>
+
+        <Button
+            android:id="@+id/s"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="S"/>
+
+        <Button
+            android:id="@+id/m"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="M"/>
+
+        <Button
+            android:id="@+id/l"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="L"/>
+
+        <Button
+            android:id="@+id/xl"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="XL"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/updatebtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/green"
+        android:text="Update"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:id="@+id/deleteprodbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/red"
+        android:text="Delete product"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>
