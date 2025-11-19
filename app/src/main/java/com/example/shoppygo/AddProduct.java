@@ -76,7 +76,8 @@ public class AddProduct extends AppCompatActivity {
         databaseProduct = FirebaseDatabase.getInstance().getReference("products");
         storageReference = FirebaseStorage.getInstance().getReference("product_image");
 
-        List<String> selectedSizes = new ArrayList<>();
+
+
 
         SelectImage.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -12,28 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShoppyGo">
         <activity
-            android:name=".SellerProfile"
+            android:name=".MainActivity"
             android:exported="false" />
+
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
+
         <activity
             android:name=".UpdateProduct"
             android:exported="false" />
         <activity
             android:name=".AddProduct"
             android:exported="false" />
+
         <activity
-            android:name=".SellerDashboard"
-            android:exported="false" />
-        <activity
-            android:name=".Catalog"
+            android:name=".SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
