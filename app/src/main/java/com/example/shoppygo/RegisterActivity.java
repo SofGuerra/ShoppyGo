@@ -121,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Toast.makeText(RegisterActivity.this, "success register", Toast.LENGTH_SHORT).show();
                     if (!companyname.isEmpty()) {
-                        startActivity(new Intent(RegisterActivity.this, SellerDashboard.class));
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finish();
                     } else {
 //                        startActivity(new Intent(RegisterActivity.this, UserDashboard.class));

@@ -15,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DatabaseReference;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -24,105 +29,109 @@ import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class ProductAdapter extends BaseAdapter {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    private Context context;
+    private Context context; //inflar lyo,usar getDrawable etc
     private ArrayList<Product> productList;
+    private OnProductActionListener listener;
 
-    public ProductAdapter(Context c, ArrayList<Product> list){
+
+
+    public interface OnProductActionListener {
+        void onDelete(Product product);
+        void onUpdate(Product product);
+    }
+    public ProductAdapter(Context c, ArrayList<Product> list, OnProductActionListener l){
         context = c;
         productList = list;
+        listener = l;
     }
 
-    @Override
-    public int getCount() {
-        return productList.size();
-    }
+    public static class ProductViewHolder extends RecyclerView.ViewHolder{
 
-    @Override
-    public Object getItem(int position) {
-        return productList.get(position);
-    }
+        ImageView prodimage, prodimage2;
+        TextView productName, productRef, productPrice;
+        ImageView colorWhite, colorBlack, colorBrown, colorGreen, colorGray, colorBeige;
+        Button xs, s, m, l, xl;
+        Button updateBtn, deleteBtn;
+        public ProductViewHolder(@NonNull View itemView) {
+            super(itemView);
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+            prodimage = itemView.findViewById(R.id.imageProd);
+            prodimage2 = itemView.findViewById(R.id.imageProd2);
+            productName = itemView.findViewById(R.id.productName);
+            productRef = itemView.findViewById(R.id.productRef);
+            productPrice = itemView.findViewById(R.id.productPrice);
 
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null){
-            convertView = LayoutInflater.from(context).inflate(R.layout.product_item,parent, false);
+            colorWhite = itemView.findViewById(R.id.colorWhite);
+            colorBlack = itemView.findViewById(R.id.colorBlack);
+            colorBrown = itemView.findViewById(R.id.colorBrown);
+            colorGreen = itemView.findViewById(R.id.colorGreen);
+            colorGray = itemView.findViewById(R.id.colorGray);
+            colorBeige = itemView.findViewById(R.id.colorBeige);
 
+            xs = itemView.findViewById(R.id.xs);
+            s = itemView.findViewById(R.id.s);
+            m = itemView.findViewById(R.id.m);
+            l = itemView.findViewById(R.id.l);
+            xl = itemView.findViewById(R.id.xl);
+
+            updateBtn = itemView.findViewById(R.id.updatebtn);
+            deleteBtn = itemView.findViewById(R.id.deleteprodbtn);
         }
+    }
+
+    @NonNull
+    @Override
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.product_item, parent, false);
+
+        return new ProductViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
 
-        ImageView prodimage = convertView.findViewById(R.id.imageProd);
-        ImageView prodimage2 = convertView.findViewById(R.id.imageProd2);
-        TextView productName = convertView.findViewById(R.id.productName);
-        TextView productRef = convertView.findViewById(R.id.productRef);
-        TextView productPrice = convertView.findViewById(R.id.productPrice);
-
-        ImageView colorWhite = convertView.findViewById(R.id.colorWhite);
-        ImageView colorBlack = convertView.findViewById(R.id.colorBlack);
-        ImageView colorBrown = convertView.findViewById(R.id.colorBrown);
-        ImageView colorGreen = convertView.findViewById(R.id.colorGreen);
-        ImageView colorGray = convertView.findViewById(R.id.colorGray);
-        ImageView colorBeige = convertView.findViewById(R.id.colorBeige);
-
-        Button xs = convertView.findViewById(R.id.xs);
-        Button s = convertView.findViewById(R.id.s);
-        Button m = convertView.findViewById(R.id.m);
-        Button l = convertView.findViewById(R.id.l);
-        Button xl = convertView.findViewById(R.id.xl);
-
-        productName.setText(product.getName());
-        productRef.setText(product.getProductRef());
-        productPrice.setText("$" + product.getPrice());
-
+        holder.productName.setText(product.getName());
+        holder.productRef.setText(product.getProductRef());
+        holder.productPrice.setText("$" + product.getPrice());
 
         if (product.getImageURL() !=null && !product.getImageURL().isEmpty()){
-            new ImageLoadTask(product.getImageURL(),prodimage).execute();
+            new ImageLoadTask(product.getImageURL(),holder.prodimage).execute();
         }else {
-            prodimage.setImageResource(android.R.drawable.ic_menu_report_image);
+            holder.prodimage.setImageResource(android.R.drawable.ic_menu_report_image);
         }
-        //COMO PONGO UNA SEGUNDA IMAGEN
 
-        GradientDrawable drawableWhite = (GradientDrawable) colorWhite.getBackground();
-        drawableWhite.setColor(Color.parseColor("#FFFFFF"));
-        colorWhite.setVisibility(product.getColor().contains("#FFFFFF") ? View.VISIBLE : View.GONE);
+//        if (product.getImageURL2() !=null && !product.getImageURL().isEmpty()){
+//            new ImageLoadTask(product.getImageURL(),holder.prodimage2).execute();
+//        }else {
+//            holder.prodimage2.setImageResource(android.R.drawable.ic_menu_report_image);
+//        }
 
-        GradientDrawable drawableBlack = (GradientDrawable) colorBlack.getBackground();
-        drawableBlack.setColor(Color.parseColor("#000000"));
-        colorBlack.setVisibility(product.getColor().contains("#000000") ? View.VISIBLE : View.GONE);
-
-        GradientDrawable drawableBrown = (GradientDrawable) colorBrown.getBackground();
-        drawableBrown.setColor(Color.parseColor("#7f520a"));
-        colorBrown.setVisibility(product.getColor().contains("#7f520a") ? View.VISIBLE : View.GONE);
-
-        GradientDrawable drawableGreen = (GradientDrawable) colorGreen.getBackground();
-        drawableGreen.setColor(Color.parseColor("#10470f"));
-        colorGreen.setVisibility(product.getColor().contains("#10470f") ? View.VISIBLE : View.GONE);
-
-        GradientDrawable drawableGray = (GradientDrawable) colorGray.getBackground();
-        drawableGray.setColor(Color.parseColor("#d8d8d8"));
-        colorGray.setVisibility(product.getColor().contains("#d8d8d8") ? View.VISIBLE : View.GONE);
-
-        GradientDrawable drawableBeige = (GradientDrawable) colorBeige.getBackground();
-        drawableBeige.setColor(Color.parseColor("#e8e3c2"));
-        colorBeige.setVisibility(product.getColor().contains("#e8e3c2") ? View.VISIBLE : View.GONE);
-
+        updateColor(holder.colorWhite, "#FFFFFF", product);
+        updateColor(holder.colorBlack, "#000000", product);
+        updateColor(holder.colorBrown, "#7f520a", product);
+        updateColor(holder.colorGreen, "#10470f", product);
+        updateColor(holder.colorGray, "#d8d8d8", product);
+        updateColor(holder.colorBeige, "#e8e3c2", product);
 
         List<String> productSizes = product.getitemsize();
 
-        updateSizeButton(xs, productSizes);
-        updateSizeButton(s, productSizes);
-        updateSizeButton(m, productSizes);
-        updateSizeButton(l, productSizes);
-        updateSizeButton(xl, productSizes);
+        updateSizeButton(holder.xs, productSizes);
+        updateSizeButton(holder.s, productSizes);
+        updateSizeButton(holder.m, productSizes);
+        updateSizeButton(holder.l, productSizes);
+        updateSizeButton(holder.xl, productSizes);
 
+        holder.updateBtn.setOnClickListener(v -> listener.onUpdate(product));
+        holder.deleteBtn.setOnClickListener(v -> listener.onDelete(product));
+    }
 
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return productList.size();
     }
 
     private static class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
@@ -164,6 +173,12 @@ public class ProductAdapter extends BaseAdapter {
         }
     }
 
+    private void updateColor(ImageView view, String hex, Product product){
+        GradientDrawable drawable = (GradientDrawable) view.getBackground();
+        drawable.setColor(Color.parseColor(hex));
+        view.setVisibility(product.getColor().contains(hex) ? View.VISIBLE : View.GONE);
+    }
+
     private void updateSizeButton(Button button, List<String> availableSizes) {
         String size = button.getText().toString();
         if (availableSizes != null && availableSizes.contains(size)) {
@@ -171,7 +186,9 @@ public class ProductAdapter extends BaseAdapter {
             button.setTextColor(Color.WHITE);
         } else {
             button.isOpaque();
-            button.setForeground(context.getDrawable(R.drawable.unavailable_size));
         }
     }
+
+
+
 }

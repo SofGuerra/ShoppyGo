@@ -29,7 +29,7 @@
         android:layout_below="@+id/Catalog"
         android:layout_alignParentEnd="true"/>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

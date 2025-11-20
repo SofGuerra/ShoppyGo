@@ -100,76 +100,15 @@ public class AddProduct extends AppCompatActivity {
         addl.setOnClickListener(v -> editSize(addl));
         addxl.setOnClickListener(v -> editSize(addxl));
 
-        GradientDrawable drawableWhite = (GradientDrawable) colorWhite.getBackground();
-        drawableWhite.setColor(Color.parseColor("#FFFFFF"));
+        setupColorClick(colorWhite, "#FFFFFF");
+        setupColorClick(colorBlack, "#000000");
+        setupColorClick(colorBrown, "#7f520a");
+        setupColorClick(colorGreen, "#10470f");
+        setupColorClick(colorGray, "#d8d8d8");
+        setupColorClick(colorBeige, "#e8e3c2");
 
-        GradientDrawable drawableBlack = (GradientDrawable) colorBlack.getBackground();
-        drawableBlack.setColor(Color.parseColor("#000000"));
+        showColors();
 
-        GradientDrawable drawableBrown = (GradientDrawable) colorBrown.getBackground();
-        drawableBrown.setColor(Color.parseColor("#7f520a"));
-
-        GradientDrawable drawableGreen = (GradientDrawable) colorGreen.getBackground();
-        drawableGreen.setColor(Color.parseColor("#10470f"));
-
-        GradientDrawable drawableGray = (GradientDrawable) colorGray.getBackground();
-        drawableGray.setColor(Color.parseColor("#d8d8d8"));
-
-        GradientDrawable drawableBeige = (GradientDrawable) colorBeige.getBackground();
-        drawableBeige.setColor(Color.parseColor("#e8e3c2"));
-
-
-        colorWhite.setOnClickListener(v -> {
-            if (!selectedColor.contains("#FFFFFF")) {
-                selectedColor.add("#FFFFFF");
-            } else {
-                selectedColor.remove("#FFFFFF");
-            }
-        });
-
-        colorBlack.setOnClickListener(v -> {
-            if (!selectedColor.contains("#000000")) {
-                selectedColor.add("#000000");
-            } else {
-                selectedColor.remove("#000000");
-            }
-        });
-
-        colorBrown.setOnClickListener(v -> {
-            if (!selectedColor.contains("#7f520a")) {
-                selectedColor.add("#7f520a");
-            }
-            else {
-                selectedColor.remove("#7f520a");
-            }
-        });
-
-        colorGreen.setOnClickListener(v -> {
-            if (!selectedColor.contains("#10470f")) {
-                selectedColor.add("#10470f");
-            }
-            else {
-                selectedColor.remove("#10470f");
-            }
-        });
-
-        colorGray.setOnClickListener(v -> {
-            if (!selectedColor.contains("#d8d8d8")) {
-                selectedColor.add("#d8d8d8");
-            }
-            else {
-                selectedColor.remove("#d8d8d8");
-            }
-        });
-
-        colorBeige.setOnClickListener(v -> {
-            if (!selectedColor.contains("#e8e3c2")) {
-                selectedColor.add("#e8e3c2");
-            }
-            else {
-                selectedColor.remove("#e8e3c2");
-            }
-        });
     }
 
     private final ActivityResultLauncher<String> selectImageLauncher =
@@ -181,15 +120,41 @@ public class AddProduct extends AppCompatActivity {
 
             });
 
+    private void assignColor(ImageView img, String hex) {
+        GradientDrawable drawable = (GradientDrawable) img.getBackground();
+        drawable.setColor(Color.parseColor(hex));
+        img.setAlpha(selectedColor.contains(hex) ? 1f : 0.3f);
+    }
+    private void showColors() {
+        if (selectedColor == null) return;
+
+        assignColor(colorWhite, "#FFFFFF");
+        assignColor(colorBlack, "#000000");
+        assignColor(colorBrown, "#7f520a");
+        assignColor(colorGreen, "#10470f");
+        assignColor(colorGray, "#d8d8d8");
+        assignColor(colorBeige, "#e8e3c2");
+    }
+    private void setupColorClick(ImageView imgView, String colorHex) {
+        imgView.setOnClickListener(v -> {
+            if (selectedColor.contains(colorHex)) {
+                selectedColor.remove(colorHex);
+                imgView.setAlpha(0.3f);
+            } else {
+                selectedColor.add(colorHex);
+                imgView.setAlpha(1f);
+            }
+        });
+    }
     private void editSize(Button button){
         String size = button.getText().toString();
 
         if (selectedSizes.contains(size)){
             selectedSizes.remove(size);
-            button.setTextColor(Color.GRAY);
+            button.setTextColor(Color.LTGRAY);
         } else {
             selectedSizes.add(size);
-            button.setTextColor(Color.GREEN);
+            button.setTextColor(Color.BLACK);
         }
     }
     private void saveProduct() {
