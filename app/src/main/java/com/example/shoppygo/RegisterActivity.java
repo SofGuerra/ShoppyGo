@@ -22,6 +22,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailEditText, passwordEditText, confirmPassEditText, companynameregister;
     Button registrationbtn, loginbtn;
     FirebaseAuth firebaseAuth;
+    DatabaseReference databaseSeller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         loginbtn = findViewById(R.id.loginregbtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        databaseSeller = FirebaseDatabase.getInstance().getReference("Sellers");
 
         accounttype.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.seller) {
@@ -77,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         String email = emailEditText.getText().toString().trim();
         String pass = passwordEditText.getText().toString().trim();
         String confirmPass = confirmPassEditText.getText().toString().trim();
-        String companyname = companynameregister.getText().toString().trim(); //ESTA. COMO LA GUARDO EN DB
+        String companyname = companynameregister.getText().toString().trim();
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(confirmPass)) {
             Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
@@ -102,6 +106,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        String id = databaseSeller.push().getKey();
+
         int type = accounttype.getCheckedRadioButtonId();
         if (type == -1) {
             Toast.makeText(RegisterActivity.this, "Please select an account type", Toast.LENGTH_SHORT).show();
@@ -114,14 +120,16 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Please enter the company name", Toast.LENGTH_SHORT).show();
             }
         }
-        //if i am here it means
+
         firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "success register", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Register succesfull", Toast.LENGTH_SHORT).show();
                     if (!companyname.isEmpty()) {
-                        startActivity(new Intent(RegisterActivity.this, SellerDashboard.class));
+                        Seller seller = new Seller(id, companyname, email);
+                        databaseSeller.child(id).setValue(seller);
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finish();
                     } else {
 //                        startActivity(new Intent(RegisterActivity.this, UserDashboard.class));

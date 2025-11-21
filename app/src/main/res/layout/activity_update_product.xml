@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:layout_marginTop="30dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +16,14 @@
         android:layout_marginBottom="20dp">
 
         <ImageView
-            android:id="@+id/addimageProd"
+            android:id="@+id/updateimageProd"
             android:layout_width="170dp"
             android:layout_height="200dp"
             android:layout_marginRight="10dp"
             />
 
         <ImageView
-            android:id="@+id/addimageProd2"
+            android:id="@+id/updateimageProd2"
             android:layout_width="170dp"
             android:layout_height="200dp"
             android:layout_marginRight="10dp"
@@ -30,8 +31,16 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/updateImagebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update image"
+        android:backgroundTint="@color/green"
+        android:layout_gravity="end"/>
+
     <EditText
-        android:id="@+id/addproductName"
+        android:id="@+id/updateproductName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -40,7 +49,7 @@
         android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/addproductRef"
+        android:id="@+id/updateproductRef"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -48,7 +57,7 @@
         android:hint="Product Reference"/>
 
     <EditText
-        android:id="@+id/addproductPrice"
+        android:id="@+id/updateproductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -65,7 +74,6 @@
         android:textStyle="bold"/>
 
     <LinearLayout
-        android:id="@+id/colorPalette"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,7 +137,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/addxs"
+            android:id="@+id/updatexs"
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/gray"
@@ -137,7 +145,7 @@
             android:text="XS"/>
 
         <Button
-            android:id="@+id/adds"
+            android:id="@+id/updates"
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/gray"
@@ -145,7 +153,7 @@
             android:text="S"/>
 
         <Button
-            android:id="@+id/addm"
+            android:id="@+id/updatem"
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/gray"
@@ -153,7 +161,7 @@
             android:text="M"/>
 
         <Button
-            android:id="@+id/addl"
+            android:id="@+id/updatel"
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/gray"
@@ -161,7 +169,7 @@
             android:text="L"/>
 
         <Button
-            android:id="@+id/addxl"
+            android:id="@+id/updatexl"
             android:layout_width="70dp"
             android:layout_height="35dp"
             android:backgroundTint="@color/gray"
