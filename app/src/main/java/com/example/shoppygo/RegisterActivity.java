@@ -34,8 +34,6 @@ public class RegisterActivity extends AppCompatActivity {
     EditText emailEditText, passwordEditText, confirmPassEditText, companynameregister;
     Button registrationbtn, loginbtn;
     FirebaseAuth firebaseAuth;
-    DatabaseReference databaseSeller;
-
 
 
     @Override
@@ -54,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity {
         loginbtn = findViewById(R.id.loginregbtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        databaseSeller = FirebaseDatabase.getInstance().getReference("Sellers");
 
         accounttype.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.seller) {
@@ -113,8 +110,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String id = databaseSeller.push().getKey();
-
         int type = accounttype.getCheckedRadioButtonId();
         if (type == -1) {
             Toast.makeText(RegisterActivity.this, "Please select an account type", Toast.LENGTH_SHORT).show();
@@ -138,11 +133,17 @@ public class RegisterActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
+                    DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+                    String id = task.getResult().getUser().getUid();
                     if (isSeller) {
                         Seller seller = new Seller(id, companyname, email);
-                        databaseSeller.child(id).setValue(seller);
+                        usersRef.child(id).setValue(seller);
+                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                    } else {
+                        Customer customer = new Customer(id, email, "", "");
+                        usersRef.child(id).setValue(customer);
+                        startActivity(new Intent(RegisterActivity.this, CustomerActivity.class));
                     }
-                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                     finish();
                 } else {
                     showRegisterException(task.getException());

@@ -1,39 +1,31 @@
 package com.example.shoppygo;
 
-public class Seller {
-    private String sellerId;
-    private String Companyname;
-    private String email;
+public class Seller extends User {
+    private String companyName;
     private String productLine;
 
-    public Seller(String sellerId, String companyname, String email) {
-        this.sellerId = sellerId;
-        Companyname = companyname;
-        this.email = email;
+    public Seller() {
+        super();
     }
 
-    public String getSellerId() {
-        return sellerId;
+    public Seller(String id, String email, String companyName) {
+        super(id, email, "seller");
+        this.companyName = companyName;
     }
 
-    public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public String getCompanyname() {
-        return Companyname;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public void setCompanyname(String cname) {
-        this.Companyname = cname;
+    public String getProductLine() {
+        return productLine;
     }
 
-    public String getEmail() {
-        return email;
+    public void setProductLine(String productLine) {
+        this.productLine = productLine;
     }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
 }

@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -81,10 +83,30 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() { //si la cuenta esta loggeada
         super.onStart();
         FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-        }
 
+        System.out.println("Current User: " + currentUser);
+        if (currentUser != null) {
+            String uid = currentUser.getUid();
+            redirectUser(uid);
+        }
+    }
+
+
+    private void redirectUser(String uid) {
+        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+        System.out.println("Current User: " + uid);
+
+        usersRef.child(uid).child("role").get().addOnSuccessListener(snapshot -> {
+            if (snapshot.exists()) {
+                String role = snapshot.getValue(String.class);
+                if ("seller".equals(role)) {
+                    startActivity(new Intent(this, MainActivity.class));
+                    finish();
+                } else if ("customer".equals(role)) {
+                    startActivity(new Intent(this, CustomerActivity.class));
+                    finish();
+                }
+            }
+        });
     }
 }
