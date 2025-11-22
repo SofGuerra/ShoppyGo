@@ -22,6 +22,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +35,8 @@ public class RegisterActivity extends AppCompatActivity {
     Button registrationbtn, loginbtn;
     FirebaseAuth firebaseAuth;
     DatabaseReference databaseSeller;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +99,8 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+
+
         if (pass.length() < 8) {
             passwordEditText.setError("Password should be longer that 8 char");
             passwordEditText.requestFocus();
@@ -115,30 +122,47 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         String account = ((RadioButton)findViewById(type)).getText().toString();
-        if (account.equals("Seller")) {
+        boolean isSeller = account.equals("Seller");
+        if (isSeller) {
             if (companyname.isEmpty()){
                 Toast.makeText(RegisterActivity.this, "Please enter the company name", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
+
+
+
 
         firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(RegisterActivity.this, "Register succesfull", Toast.LENGTH_SHORT).show();
-                    if (!companyname.isEmpty()) {
+                    Toast.makeText(RegisterActivity.this, "Register successful", Toast.LENGTH_SHORT).show();
+                    if (isSeller) {
                         Seller seller = new Seller(id, companyname, email);
                         databaseSeller.child(id).setValue(seller);
-                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
-                        finish();
-                    } else {
-//                        startActivity(new Intent(RegisterActivity.this, UserDashboard.class));
-                        finish();
                     }
+                    startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                    finish();
                 } else {
+                    showRegisterException(task.getException());
                     Toast.makeText(RegisterActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private void showRegisterException(Exception e) {
+        if (e instanceof FirebaseAuthInvalidCredentialsException) {
+            // email format
+            Toast.makeText(this, "Invalid email format", Toast.LENGTH_SHORT).show();
+        }
+        else if (e instanceof FirebaseAuthUserCollisionException) {
+            // email exists
+            Toast.makeText(this, "This email is already registered", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(RegisterActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 }
