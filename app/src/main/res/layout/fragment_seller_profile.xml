@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_marginHorizontal="20dp"
+    android:orientation="vertical"
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="20dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:id="@+id/welcomecompany"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome "
+        android:textSize="30dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account Settings"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginVertical="20dp"/>
+
+    <TextView
+        android:id="@+id/lognsecbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login Security"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/accountbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@android:color/darker_gray"/>
+
+    <TextView
+        android:id="@+id/reviewsbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reviews"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:background="@android:color/darker_gray"/>
+
+    <FrameLayout
+        android:id="@+id/fragmentCont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/logoutbtn"
+        android:src="@drawable/logout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="20dp"
+        />
+
+</RelativeLayout>

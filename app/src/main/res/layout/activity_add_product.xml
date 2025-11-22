@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginTop="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/addimageProd"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/addimageProd2"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="9dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/SelectImagebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add image"
+        android:backgroundTint="@color/green"
+        android:layout_gravity="end"/>
+
+    <EditText
+        android:id="@+id/addproductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:inputType="text"
+        android:hint="Product Name"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/addproductRef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:hint="Product Reference"/>
+
+    <EditText
+        android:id="@+id/addproductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:inputType="numberDecimal"
+        android:hint="$99.99"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Available Colors: "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/addcolorWhite"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorBlack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorBrown"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorGreen"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorGray"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/addcolorBeige"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Sizes: "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/addxs"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="XS"/>
+
+        <Button
+            android:id="@+id/adds"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="S"/>
+
+        <Button
+            android:id="@+id/addm"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="M"/>
+
+        <Button
+            android:id="@+id/addl"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="L"/>
+
+        <Button
+            android:id="@+id/addxl"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="XL"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/green"
+        android:text="Add Item"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>

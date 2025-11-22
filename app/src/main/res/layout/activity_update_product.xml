@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginTop="30dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/updateimageProd"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <ImageView
+            android:id="@+id/updateimageProd2"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="9dp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/updateImagebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update image"
+        android:backgroundTint="@color/green"
+        android:layout_gravity="end"/>
+
+    <EditText
+        android:id="@+id/updateproductName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:hint="Product Name"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/updateproductRef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:hint="Product Reference"/>
+
+    <EditText
+        android:id="@+id/updateproductPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:hint="$99.99"
+        android:textSize="25dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Available Colors: "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/colorWhite"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBlack"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBrown"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorGreen"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorGray"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+        <ImageView
+            android:id="@+id/colorBeige"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_margin="6dp"
+            android:background="@drawable/color_square"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="5dp"
+        android:text="Sizes: "
+        android:textStyle="bold"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/updatexs"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="XS"/>
+
+        <Button
+            android:id="@+id/updates"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="S"/>
+
+        <Button
+            android:id="@+id/updatem"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="M"/>
+
+        <Button
+            android:id="@+id/updatel"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="L"/>
+
+        <Button
+            android:id="@+id/updatexl"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:backgroundTint="@color/gray"
+            android:layout_marginLeft="5dp"
+            android:text="XL"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/savechangesbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/green"
+        android:text="Save updates"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>
