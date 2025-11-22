@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Customer extends User {
     private String name;
     private String address;
-    private ArrayList<String> cartItems;
+    private ArrayList<CartProduct> cartItems;
     private ArrayList<String> orders;
     private ArrayList<String> paymentMethods;
 
@@ -21,6 +21,7 @@ public class Customer extends User {
         this.name = name;
         this.address = address;
         this.cartItems = new ArrayList<>();
+        cartItems.add(new CartProduct("test", 3));
         this.orders = new ArrayList<>();
         this.paymentMethods = new ArrayList<>();
     }
@@ -41,11 +42,11 @@ public class Customer extends User {
         this.address = address;
     }
 
-    public ArrayList<String> getCartItems() {
+    public ArrayList<CartProduct> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(ArrayList<String> cartItems) {
+    public void setCartItems(ArrayList<CartProduct> cartItems) {
         this.cartItems = cartItems;
     }
 
@@ -64,4 +65,23 @@ public class Customer extends User {
     public void setPaymentMethods(ArrayList<String> paymentMethods) {
         this.paymentMethods = paymentMethods;
     }
+
+    public void updateCartQty(String productId, int qty) {
+        for (CartProduct item : cartItems) {
+            if (item.getProductId().equals(productId)) {
+                item.setQty(qty);
+                break;
+            }
+        }
+    }
+
+    public void removeCartProduct(String productId) {
+        for (int i = 0; i < cartItems.size(); i++) {
+            if (cartItems.get(i).getProductId().equals(productId)) {
+                cartItems.remove(i);
+                break;
+            }
+        }
+    }
+
 }

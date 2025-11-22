@@ -70,8 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     Toast.makeText(LoginActivity.this, "login successfull", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+                    redirectUser(task.getResult().getUser().getUid());
                 }else{
                     Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
@@ -91,19 +90,22 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     private void redirectUser(String uid) {
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-        System.out.println("Current User: " + uid);
-
-        usersRef.child(uid).child("role").get().addOnSuccessListener(snapshot -> {
+        usersRef.child(uid).get().addOnSuccessListener(snapshot -> {
             if (snapshot.exists()) {
-                String role = snapshot.getValue(String.class);
+                String role = snapshot.child("role").getValue(String.class);
                 if ("seller".equals(role)) {
-                    startActivity(new Intent(this, MainActivity.class));
+                    Seller seller = snapshot.getValue(Seller.class);
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("user", seller);
+                    startActivity(intent);
                     finish();
                 } else if ("customer".equals(role)) {
-                    startActivity(new Intent(this, CustomerActivity.class));
+                    Customer customer = snapshot.getValue(Customer.class);
+                    Intent intent = new Intent(this, CustomerActivity.class);
+                    intent.putExtra("user", customer);
+                    startActivity(intent);
                     finish();
                 }
             }

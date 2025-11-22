@@ -138,13 +138,18 @@ public class RegisterActivity extends AppCompatActivity {
                     if (isSeller) {
                         Seller seller = new Seller(id, companyname, email);
                         usersRef.child(id).setValue(seller);
-                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        intent.putExtra("user", seller);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Customer customer = new Customer(id, email, "", "");
                         usersRef.child(id).setValue(customer);
-                        startActivity(new Intent(RegisterActivity.this, CustomerActivity.class));
+                        Intent intent = new Intent(RegisterActivity.this, CustomerActivity.class);
+                        intent.putExtra("user", customer);
+                        startActivity(intent);
+                        finish();
                     }
-                    finish();
                 } else {
                     showRegisterException(task.getException());
                     Toast.makeText(RegisterActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();

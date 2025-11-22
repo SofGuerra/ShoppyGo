@@ -134,7 +134,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return productList.size();
     }
 
-    private static class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
+    public static class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
         private String url;
         private ImageView imageView;
