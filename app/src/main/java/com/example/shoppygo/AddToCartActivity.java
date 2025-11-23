@@ -3,6 +3,7 @@ package com.example.shoppygo;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class AddToCartActivity extends AppCompatActivity {
 
-    ImageView prodimage, prodimage2;
+    ImageView prodimage;
     ImageView colorWhite, colorBlack, colorBrown, colorGreen, colorGray, colorBeige;
     TextView productName, productRef, productPrice;
     Button btnXS, btnS, btnM, btnL, btnXL, addToCartBtn;
@@ -44,7 +45,8 @@ public class AddToCartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_to_cart);
 
         prodimage = findViewById(R.id.addimageProd);
-        prodimage2 = findViewById(R.id.addimageProd2);
+
+
 
         productName = findViewById(R.id.addproductName);
         productRef = findViewById(R.id.addproductRef);
@@ -85,6 +87,14 @@ public class AddToCartActivity extends AppCompatActivity {
             Toast.makeText(this, "Product not found", Toast.LENGTH_SHORT).show();
             finish();
             return;
+        }
+
+
+        prodimage.setImageURI(Uri.parse(product.getImageURL()));
+        if (product.getImageURL() !=null && !product.getImageURL().isEmpty()){
+            new ProductAdapter.ImageLoadTask(product.getImageURL(), prodimage).execute();
+        }else {
+            prodimage.setImageResource(android.R.drawable.ic_menu_report_image);
         }
 
         productName.setText(product.getName());

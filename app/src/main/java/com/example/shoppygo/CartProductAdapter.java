@@ -51,9 +51,8 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         holder.productName.setText(productPair.product.getName());
         holder.productPrice.setText("$" + productPair.product.getPrice());
         holder.quantity.setText("" + productPair.cartProduct.getQty());
+
         holder.productImage.setImageURI(Uri.parse(productPair.product.getImageURL()));
-
-
         if (productPair.product.getImageURL() !=null && !productPair.product.getImageURL().isEmpty()){
             new ProductAdapter.ImageLoadTask(productPair.product.getImageURL(),holder.productImage).execute();
         }else {

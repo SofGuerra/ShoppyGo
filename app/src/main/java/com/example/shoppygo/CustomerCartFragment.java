@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -25,6 +26,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
     ArrayList<CartProductAdapter.ProductPair> cartProducts;
 
     RecyclerView recyclerviewcart;
+    TextView subTotal;
 
     CustomerActivity parent;
 
@@ -39,6 +41,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
         View view = inflater.inflate(R.layout.customer_cart, container, false);
 
         recyclerviewcart = view.findViewById(R.id.recyclerViewCart);
+        subTotal = view.findViewById(R.id.textSubtotal);
 
         fetchCart();
 
@@ -74,6 +77,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
                 }
             }
             recyclerviewcart.getAdapter().notifyDataSetChanged();
+            recalculateSubtotal();
         });
 
     }
@@ -83,6 +87,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
         parent.getUser().updateCartQty(pair.cartProduct.getProductId(), pair.cartProduct.getQty());
         parent.getUser().updateCartInFirebase();
         recyclerviewcart.getAdapter().notifyDataSetChanged();
+        recalculateSubtotal();
     }
 
     @Override
@@ -97,6 +102,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
         parent.getUser().updateCartQty(pair.cartProduct.getProductId(), pair.cartProduct.getQty());
         parent.getUser().updateCartInFirebase();
         recyclerviewcart.getAdapter().notifyDataSetChanged();
+        recalculateSubtotal();
     }
 
     @Override
@@ -106,12 +112,20 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
         cartProducts.remove(pair);
         parent.getUser().updateCartInFirebase();
         recyclerviewcart.getAdapter().notifyDataSetChanged();
+        recalculateSubtotal();
     }
 
     @Override
     public void OnItemCheck(CartProductAdapter.ProductPair pair, boolean checked) {
     }
 
+    void recalculateSubtotal() {
+        double amount = 0;
+        for (CartProductAdapter.ProductPair pair : cartProducts) {
+            amount += pair.cartProduct.getQty() * pair.product.getPrice();
+        }
+        subTotal.setText(String.format("$%.2f", amount));
+    }
 
 
 }
