@@ -57,17 +57,13 @@ public class CatalogFragment extends Fragment {
 
                 if (imgURL != null && !imgURL.isEmpty()) {
                     databaseImage.getInstance().getReferenceFromUrl(imgURL).delete()
-                            .addOnSuccessListener(aVoid ->{
+                            .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(requireContext(), "Product deleted", Toast.LENGTH_SHORT).show();
                             })
-                            .addOnFailureListener(e ->{
+                            .addOnFailureListener(e -> {
                                 Toast.makeText(requireContext(), "Error deleting image", Toast.LENGTH_SHORT).show();
                             });
-
-
                 }
-
-
             }
 
             @Override
@@ -92,9 +88,9 @@ public class CatalogFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 productList.clear();
 
-                for (DataSnapshot possnapshot : snapshot.getChildren()){
+                for (DataSnapshot possnapshot : snapshot.getChildren()) {
                     Product product = possnapshot.getValue(Product.class);
-                    if (product != null){
+                    if (product != null) {
                         product.setId(possnapshot.getKey());
                         productList.add(product);
                     }
