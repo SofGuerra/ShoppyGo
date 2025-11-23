@@ -1,5 +1,6 @@
 package com.example.shoppygo;
 
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,18 +9,18 @@ public class Order implements Serializable {
     private String id;
     private Long date;
     private List<CartProduct> items;
-    private String name;
+    private String customerName;
     private String address;
 
     public Order() {
 
     }
 
-    public Order(String id, Long date, List<CartProduct> items, String name, String address) {
+    public Order(String id, Long date, List<CartProduct> items, String customerName, String address) {
         this.id = id;
         this.date = date;
         this.items = items;
-        this.name = name;
+        this.customerName = customerName;
         this.address = address;
     }
 
@@ -47,12 +48,12 @@ public class Order implements Serializable {
         this.items = items;
     }
 
-    public String getName() {
-        return name;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public String getAddress() {

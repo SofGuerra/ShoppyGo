@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
-                android:text="REF: " />
+                />
 
             <TextView
                 android:id="@+id/posize"
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/poref"
                 android:layout_marginBottom="3dp"
-                android:text="Size: " />
+                />
 
             <TextView
                 android:id="@+id/pocolor"
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/posize"
                 android:layout_marginBottom="3dp"
-                android:text="Color: " />
+                />
 
             <TextView
                 android:id="@+id/deliverby"
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pocolor"
                 android:layout_marginBottom="3dp"
-                android:text="Deliver by: " />
+                />
 
             <Button
                 android:id="@+id/cancelOrder"
@@ -86,7 +86,6 @@
             android:id="@+id/shippingaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address: "
             android:textStyle="bold"
             android:padding="10dp"
             />
@@ -95,7 +94,6 @@
             android:id="@+id/customer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Customer: "
             android:textStyle="bold"
             android:padding="10dp"
             />
@@ -104,7 +102,6 @@
             android:id="@+id/shipby"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ship by: "
             android:textStyle="bold"
             android:padding="10dp"
             />
