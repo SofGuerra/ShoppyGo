@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,19 +15,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class CustomerCartFragment extends Fragment implements CartProductAdapter.ICartRecyclerViewListener {
-
-
     ArrayList<CartProductAdapter.ProductPair> cartProducts;
 
     RecyclerView recyclerviewcart;
-    TextView subTotal;
+    TextView subTotalTextBox;
 
     CustomerActivity parent;
+
+    double subTotal;
 
     public CustomerCartFragment(CustomerActivity parent) {
         this.parent = parent;
@@ -41,7 +38,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
         View view = inflater.inflate(R.layout.customer_cart, container, false);
 
         recyclerviewcart = view.findViewById(R.id.recyclerViewCart);
-        subTotal = view.findViewById(R.id.textSubtotal);
+        subTotalTextBox = view.findViewById(R.id.textSubtotal);
 
         fetchCart();
 
@@ -120,11 +117,11 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
     }
 
     void recalculateSubtotal() {
-        double amount = 0;
+         subTotal = 0;
         for (CartProductAdapter.ProductPair pair : cartProducts) {
-            amount += pair.cartProduct.getQty() * pair.product.getPrice();
+            subTotal += pair.cartProduct.getQty() * pair.product.getPrice();
         }
-        subTotal.setText(String.format("$%.2f", amount));
+        subTotalTextBox.setText(String.format("$%.2f", subTotal));
     }
 
 

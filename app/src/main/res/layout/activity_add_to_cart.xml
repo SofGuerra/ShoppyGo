@@ -21,12 +21,6 @@
             android:layout_height="200dp"
             android:layout_marginRight="10dp" />
 
-        <ImageView
-            android:id="@+id/addimageProd2"
-            android:layout_width="170dp"
-            android:layout_height="200dp"
-            android:layout_marginLeft="9dp"
-            android:layout_marginRight="10dp" />
 
     </LinearLayout>
 
