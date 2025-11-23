@@ -11,10 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProductAdapter.ViewHolder> {
-    private List<Product> productList;
 
-    public CustomerProductAdapter(List<Product> products) {
+    public interface CustomerProductListener {
+        void OnAddToCart(Product product);
+    }
+
+    public List<Product> productList;
+
+    private CustomerProductListener listener;
+
+    public CustomerProductAdapter(List<Product> products, CustomerProductListener listener) {
         this.productList = products;
+        this.listener = listener;
     }
 
     @Override
@@ -28,6 +36,14 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
         Product product = productList.get(position);
         holder.productName.setText(product.getName());
         holder.productPrice.setText("$" + product.getPrice());
+
+        holder.productImage.setImageResource(android.R.drawable.ic_menu_report_image);
+        if (product.getImageURL() !=null && !product.getImageURL().isEmpty()){
+            new ProductAdapter.ImageLoadTask(product.getImageURL(),holder.productImage).execute();
+        }
+
+        holder.addToCart.setOnClickListener(e -> listener.OnAddToCart(product));
+        holder.itemView.setOnClickListener(e -> listener.OnAddToCart(product));
     }
 
     @Override
@@ -47,6 +63,7 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
             productName = itemView.findViewById(R.id.text_product_name);
             productPrice = itemView.findViewById(R.id.text_product_price);
             addToCart = itemView.findViewById(R.id.button_add_to_cart);
+
         }
     }
 }

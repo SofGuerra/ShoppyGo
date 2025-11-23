@@ -1,6 +1,7 @@
 package com.example.shoppygo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Product implements Serializable {

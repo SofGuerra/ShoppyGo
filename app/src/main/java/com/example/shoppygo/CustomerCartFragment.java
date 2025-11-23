@@ -81,9 +81,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
     public void OnItemIncrement(CartProductAdapter.ProductPair pair) {
         pair.cartProduct.setQty(pair.cartProduct.getQty() + 1);
         parent.getUser().updateCartQty(pair.cartProduct.getProductId(), pair.cartProduct.getQty());
-
-        updateCartInFirebase();
-
+        parent.getUser().updateCartInFirebase();
         recyclerviewcart.getAdapter().notifyDataSetChanged();
     }
 
@@ -97,8 +95,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
 
         pair.cartProduct.setQty(pair.cartProduct.getQty() - 1);
         parent.getUser().updateCartQty(pair.cartProduct.getProductId(), pair.cartProduct.getQty());
-
-        updateCartInFirebase();
+        parent.getUser().updateCartInFirebase();
         recyclerviewcart.getAdapter().notifyDataSetChanged();
     }
 
@@ -107,8 +104,7 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
 
         parent.getUser().removeCartProduct(pair.cartProduct.getProductId());
         cartProducts.remove(pair);
-
-        updateCartInFirebase();
+        parent.getUser().updateCartInFirebase();
         recyclerviewcart.getAdapter().notifyDataSetChanged();
     }
 
@@ -116,14 +112,6 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
     public void OnItemCheck(CartProductAdapter.ProductPair pair, boolean checked) {
     }
 
-    private void updateCartInFirebase() {
-        String uid = parent.getUser().getId();
-        FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(uid)
-                .child("cartItems")
-                .setValue(parent.getUser().getCartItems());
-    }
 
 
 }

@@ -17,6 +17,10 @@ public class CustomerActivity extends AppCompatActivity {
         return user;
     }
 
+    public void setUser(Customer user) {
+        this.user = user;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +33,12 @@ public class CustomerActivity extends AppCompatActivity {
         cartBtn = findViewById(R.id.nav_cart);
         profileBtn = findViewById(R.id.nav_profile);
 
-        loadFragment(new CustomerHomeFragment());
+        loadFragment(new CustomerHomeFragment(this));
 
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new CustomerHomeFragment());
+                loadFragment(new CustomerHomeFragment(CustomerActivity.this));
             }
         });
 

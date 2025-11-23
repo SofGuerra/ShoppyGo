@@ -145,17 +145,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
 
+        private static HashMap<String, Bitmap> cache = new HashMap<>();
+
         @Override
         protected Bitmap doInBackground(Void... voids) {
+            if (cache.containsKey(url)) {
+                return cache.get(url);
+            }
             try{
                 URL urlConnections = new URL(url);
                 HttpsURLConnection connection = (HttpsURLConnection) urlConnections.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
                 InputStream input = connection.getInputStream();
-
-                return BitmapFactory.decodeStream(input);
-
+                Bitmap result =  BitmapFactory.decodeStream(input);
+                cache.put(url, result);
+                return result;
             }catch(Exception e){
                 e.printStackTrace();
                 return null;

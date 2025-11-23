@@ -1,5 +1,8 @@
 package com.example.shoppygo;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class Customer extends User {
@@ -21,7 +24,6 @@ public class Customer extends User {
         this.name = name;
         this.address = address;
         this.cartItems = new ArrayList<>();
-        cartItems.add(new CartProduct("test", 3));
         this.orders = new ArrayList<>();
         this.paymentMethods = new ArrayList<>();
     }
@@ -82,6 +84,24 @@ public class Customer extends User {
                 break;
             }
         }
+    }
+
+    public void addCartProduct(CartProduct cardProduct) {
+        for (CartProduct item : cartItems) {
+            if (item.getProductId().equals(cardProduct.getProductId())) {
+                item.setQty(item.getQty() + 1);
+                return;
+            }
+        }
+        cartItems.add(cardProduct);
+    }
+
+    public void updateCartInFirebase() {
+        FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(getId())
+                .child("cartItems")
+                .setValue(getCartItems());
     }
 
 }
