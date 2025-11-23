@@ -1,24 +1,19 @@
 package com.example.shoppygo;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
-import java.net.URL;
+import java.text.DateFormat;
 import java.util.ArrayList;
-
-import javax.net.ssl.HttpsURLConnection;
+import java.util.Date;
+import java.util.Locale;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
 
@@ -27,8 +22,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     private OnOrderActionListener listener;
 
     public interface OnOrderActionListener {
-        void onCancel (Order order);
+        void onCancel(Order order);
     }
+
     public OrderAdapter(Context c, ArrayList<Order> list, OnOrderActionListener l) {
         context = c;
         orderList = list;
@@ -36,25 +32,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
-        ImageView ordimageProd;
-        TextView poRef, poSize, poColor, deliverby;
-        TextView shippingaddress, customer, shipby;
+        TextView orderId;
+        TextView orderDate;
+        TextView customerName;
+        TextView address;
+        TextView itemsCount;
         Button cancelOrder;
-
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            ordimageProd = itemView.findViewById(R.id.imageProd);
-            poRef = itemView.findViewById(R.id.poref);
-            poSize = itemView.findViewById(R.id.posize);
-            poColor = itemView.findViewById(R.id.pocolor);
-            deliverby = itemView.findViewById(R.id.deliverby);
-
-            shippingaddress = itemView.findViewById(R.id.shippingaddress);
-            customer = itemView.findViewById(R.id.customer);
-            shipby = itemView.findViewById(R.id.shipby);
-
+            orderId = itemView.findViewById(R.id.tvOrderId);
+            orderDate = itemView.findViewById(R.id.tvOrderDate);
+            customerName = itemView.findViewById(R.id.tvCustomerName);
+            address = itemView.findViewById(R.id.tvAddress);
+            itemsCount = itemView.findViewById(R.id.tvItemsCount);
             cancelOrder = itemView.findViewById(R.id.cancelOrder);
         }
     }
@@ -62,7 +53,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @NonNull
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.order_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.order_item, parent, false);
         return new OrderViewHolder(view);
     }
 
@@ -70,20 +62,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
         Order order = orderList.get(position);
 
-        holder.poRef.setText("REF: " + order.getOrdreference());
-        holder.poSize.setText("Size: " + order.getSize());
-        holder.poColor.setText("Color: " + order.getColor());
-        holder.deliverby.setText("Deliver by: " + order.getDeliverBy());
+        holder.orderId.setText("Order ID: " + order.getId());
 
-        holder.shippingaddress.setText("Address: " + order.getShippingAddress());
-        holder.customer.setText("Customer: " + order.getCustomerName());
-        holder.shipby.setText("Ship by: " + order.getShipBy());
-
-        if(order.getOrdimageUrl() != null && !order.getOrdimageUrl().isEmpty()){
-            new ImageLoadTask(order.getOrdimageUrl(), holder.ordimageProd).execute();
+        if (order.getDate() != null) {
+            Date date = new Date(order.getDate());
+            DateFormat df = DateFormat.getDateTimeInstance(
+                    DateFormat.SHORT,
+                    DateFormat.SHORT,
+                    Locale.getDefault()
+            );
+            holder.orderDate.setText("Date: " + df.format(date));
         } else {
-            holder.ordimageProd.setImageResource(android.R.drawable.ic_menu_report_image);
+            holder.orderDate.setText("Date: -");
         }
+
+        holder.customerName.setText("Customer: " + order.getCustomerName());
+
+        holder.address.setText("Address: " + order.getAddress());
+
+        int count = (order.getItems() != null) ? order.getItems().size() : 0;
+        holder.itemsCount.setText("Items: " + count);
 
         holder.cancelOrder.setOnClickListener(v -> listener.onCancel(order));
     }
@@ -91,43 +89,5 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public int getItemCount() {
         return orderList.size();
-    }
-
-    private static class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
-        private String url;
-        private ImageView imageView;
-
-        public ImageLoadTask(String url, ImageView imageView){
-            this.url = url;
-            this.imageView = imageView;
-        }
-
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            try{
-                URL urlConnections = new URL(url);
-                HttpsURLConnection connection = (HttpsURLConnection) urlConnections.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-
-                return BitmapFactory.decodeStream(input);
-
-            }catch(Exception e){
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-
-            if (result != null){
-                imageView.setImageBitmap(result);
-            }else{
-                imageView.setImageResource(android.R.drawable.ic_menu_report_image);
-            }
-        }
     }
 }

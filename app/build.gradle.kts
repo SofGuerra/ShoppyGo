@@ -59,5 +59,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("com.stripe:stripe-android:22.2.0")
+    implementation ("com.stripe:financial-connections:22.2.0")
 
 }

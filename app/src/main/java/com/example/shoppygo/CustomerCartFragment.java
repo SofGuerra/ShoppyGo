@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -13,17 +14,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.stripe.android.PaymentConfiguration;
+import com.stripe.android.paymentsheet.PaymentSheet;
+import com.stripe.android.paymentsheet.PaymentSheetResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class CustomerCartFragment extends Fragment implements CartProductAdapter.ICartRecyclerViewListener {
     ArrayList<CartProductAdapter.ProductPair> cartProducts;
+    HashSet<String> checkedProducts = new HashSet<>();
+
+    private PaymentSheet paymentSheet;
 
     RecyclerView recyclerviewcart;
     TextView subTotalTextBox;
 
     CustomerActivity parent;
+
+    Button checkoutBtn;
 
     double subTotal;
 
@@ -40,12 +50,20 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
         recyclerviewcart = view.findViewById(R.id.recyclerViewCart);
         subTotalTextBox = view.findViewById(R.id.textSubtotal);
 
+        // Stripe setup
+        PaymentConfiguration.init(getContext(), PublishableKey);
+        paymentSheet = new PaymentSheet(this, paymentSheetResult -> {
+            onPaymentResult(paymentSheetResult);
+        });
+
         fetchCart();
 
         CartProductAdapter adapter = new CartProductAdapter(cartProducts, this);
         recyclerviewcart.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerviewcart.setAdapter(adapter);
 
+        checkoutBtn = view.findViewById(R.id.buttonCheckout);
+        checkoutBtn.setOnClickListener(e -> onCheckoutClicked());
 
         return view;
     }
@@ -114,14 +132,44 @@ public class CustomerCartFragment extends Fragment implements CartProductAdapter
 
     @Override
     public void OnItemCheck(CartProductAdapter.ProductPair pair, boolean checked) {
+        if (checked) {
+            checkedProducts.add(pair.product.getId());
+        } else {
+            checkedProducts.remove(pair.product.getId());
+        }
+        recalculateSubtotal();
     }
 
     void recalculateSubtotal() {
-         subTotal = 0;
+        subTotal = 0;
         for (CartProductAdapter.ProductPair pair : cartProducts) {
-            subTotal += pair.cartProduct.getQty() * pair.product.getPrice();
+            if (checkedProducts.contains(pair.product.getId())) {
+                subTotal += pair.cartProduct.getQty() * pair.product.getPrice();
+            }
         }
         subTotalTextBox.setText(String.format("$%.2f", subTotal));
+    }
+
+    void onCheckoutClicked() {
+
+        if (checkedProducts.isEmpty()) {
+            return;
+        }
+
+        paymentSheet.presentWithPaymentIntent(
+                PublishableKey,
+                new PaymentSheet.Configuration(
+                        "My Shop",
+                        null       // TODO: put customer
+                )
+        );
+    }
+
+    void onPaymentResult(PaymentSheetResult result) {
+        if (result instanceof PaymentSheetResult.Completed) {
+        } else if (result instanceof PaymentSheetResult.Canceled) {
+        } else if (result instanceof PaymentSheetResult.Failed) {
+        }
     }
 
 
