@@ -4,9 +4,16 @@ package com.example.shoppygo;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -21,13 +28,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class CustomerHomeFragment extends Fragment implements CustomerProductAdapter.CustomerProductListener {
 
     RecyclerView productsrecyclerview;
     CustomerProductAdapter adapter;
+    ArrayList<Product> allProducts = new ArrayList<>();
     CustomerActivity parent;
+
+    EditText searchEditText;
+
+    ArrayList<Button> filtersButtons = new ArrayList<>();
+
+    String currentFilter = "";
 
     public CustomerHomeFragment(CustomerActivity parent) {
         this.parent = parent;
@@ -46,6 +61,35 @@ public class CustomerHomeFragment extends Fragment implements CustomerProductAda
 
         productsrecyclerview.setAdapter(adapter);
 
+        searchEditText = view.findViewById(R.id.searchBox);
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                currentFilter = searchEditText.getText().toString();
+                filterProducts();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+        });
+
+        filtersButtons.add(view.findViewById(R.id.shirtbtnfilter));
+        filtersButtons.add(view.findViewById(R.id.jacketbtnfilter));
+        filtersButtons.add(view.findViewById(R.id.dressbtnfilter));
+        for (Button b : filtersButtons) {
+            b.setOnClickListener(l -> {
+                currentFilter = b.getText().toString();
+                filterProducts();
+            });
+        }
+
         fetchCatalog();
 
 
@@ -56,25 +100,14 @@ public class CustomerHomeFragment extends Fragment implements CustomerProductAda
     void fetchCatalog() {
         DatabaseReference productsRef = FirebaseDatabase.getInstance().getReference("products");
 
-        ArrayList<CartProduct> userCartProducts = parent.getUser().getCartItems();
-
-        // Make a map for effecient look-ups
-        HashMap<String, CartProduct> cartProductsById = new HashMap<>();
-        for (CartProduct cartProduct : userCartProducts) {
-            cartProductsById.put(cartProduct.getProductId(), cartProduct);
-        }
 
         // read all the data from CartProducts to avoid reading one-by-one
         productsRef.get().addOnSuccessListener(snapshot -> {
-            adapter.productList.clear();
             for (DataSnapshot child : snapshot.getChildren()) {
-                String id = child.getKey();
-                if (!cartProductsById.containsKey(id)) {
                     Product item = child.getValue(Product.class);
-                    adapter.productList.add(item);
+                    allProducts.add(item);
                 }
-            }
-            adapter.notifyDataSetChanged();
+            filterProducts();
         });
 
     }
@@ -100,6 +133,33 @@ public class CustomerHomeFragment extends Fragment implements CustomerProductAda
                     }
                 }
             });
+
+
+
+    void filterProducts() {
+
+        ArrayList<CartProduct> userCartProducts = parent.getUser().getCartItems();
+
+        // Make a map for effecient look-ups
+        HashSet<String> cartProductsById = new HashSet<>();
+        for (CartProduct cartProduct : userCartProducts) {
+            cartProductsById.add(cartProduct.getProductId());
+        }
+        adapter.productList.clear();
+        for (Product product : allProducts) {
+            String id = product.getId();
+            if (!cartProductsById.contains(id)) {
+                if (product.getName().toLowerCase().contains(currentFilter.toLowerCase())) {
+                    adapter.productList.add(product);
+                }
+            }
+
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+
+
 
 
 }

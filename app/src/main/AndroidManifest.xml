@@ -18,7 +18,7 @@
             android:exported="false"
             android:theme="@style/Theme.ShoppyGo" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SellerActivity"
             android:exported="false" />
         <activity
             android:name=".CustomerActivity"
@@ -30,7 +30,7 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateProduct"
+            android:name=".UpdateProductActivity"
             android:exported="false" />
         <activity
             android:name=".AddProduct"

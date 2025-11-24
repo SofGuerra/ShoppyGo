@@ -9,39 +9,34 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.firebase.database.DatabaseReference;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+public class SellerProductAdapter extends RecyclerView.Adapter<SellerProductAdapter.ProductViewHolder> {
 
     private Context context; //inflar lyo,usar getDrawable etc
     private ArrayList<Product> productList;
-    private OnProductActionListener listener;
+    private IProductActionListener listener;
 
 
 
-    public interface OnProductActionListener {
+    public interface IProductActionListener {
         void onDelete(Product product);
         void onUpdate(Product product);
     }
-    public ProductAdapter(Context c, ArrayList<Product> list, OnProductActionListener l){
+    public SellerProductAdapter(Context c, ArrayList<Product> list, IProductActionListener l){
         context = c;
         productList = list;
         listener = l;

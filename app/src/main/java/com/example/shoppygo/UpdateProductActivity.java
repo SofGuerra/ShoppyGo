@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,31 +15,29 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
-public class UpdateProduct extends AppCompatActivity {
+public class UpdateProductActivity extends AppCompatActivity {
 
     ImageView updateimageProd, updateimageProd2;
     EditText updateproductName, updateproductRef, updateproductPrice;
     ImageView colorWhite, colorBlack, colorBrown, colorGreen, colorGray, colorBeige;
     Button updatexs, updates, updatem, updatel, updatexl, savechangesbtn, updateImagebtn;
-    String productID, imgURL;
+    String imgURL;
     ArrayList<String> productSizes = new ArrayList<>();
     ArrayList<String> productColors = new ArrayList<>();
     DatabaseReference databaseProduct;
     StorageReference storageReference;
     Uri newImageuri;
+
+    Product product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +72,8 @@ public class UpdateProduct extends AppCompatActivity {
         databaseProduct = FirebaseDatabase.getInstance().getReference("products");
         storageReference = FirebaseStorage.getInstance().getReference();
 
+        product =(Product) getIntent().getSerializableExtra("product");
 
-        productID = getIntent().getStringExtra("id");
-        if(productID != null){
-            loadProductFromFirebase(productID);
-        }
 
         updateImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,31 +98,7 @@ public class UpdateProduct extends AppCompatActivity {
         savechangesbtn.setOnClickListener(v -> saveChanges());
     }
 
-    private void loadProductFromFirebase(String id) {
-        databaseProduct.child(id).get().addOnSuccessListener(snapshot -> {
-            Product product = snapshot.getValue(Product.class);
-            if (product != null) {
 
-                updateproductName.setText(product.getName());
-                updateproductRef.setText(product.getProductRef());
-                updateproductPrice.setText(String.valueOf(product.getPrice()));
-
-                productColors = new ArrayList<>(product.getColor());
-                productSizes = new ArrayList<>(product.getitemsize());
-
-                imgURL = product.getImageURL();
-
-                if (imgURL != null && !imgURL.isEmpty()) {
-                    Glide.with(this).load(imgURL).into(updateimageProd);
-                }
-
-                markSelectedColors();
-                markSelectedSizes();
-            }
-        }).addOnFailureListener(e ->
-                Toast.makeText(this, "Error loading product", Toast.LENGTH_SHORT).show()
-        );
-    }
     private final ActivityResultLauncher<String> selectImageLauncher =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
                 if (uri != null) {
@@ -138,8 +107,6 @@ public class UpdateProduct extends AppCompatActivity {
                 } else {
                     newImageuri = null;
                 }
-
-
             });
 
     private void editSize(Button button) {
@@ -152,7 +119,8 @@ public class UpdateProduct extends AppCompatActivity {
             productSizes.add(size);
             button.setTextColor(Color.BLACK);
         }
-    } //al editar la quito o la pongo y se ve la edicion
+    }
+
     private void setupColorClick(ImageView imgView, String colorHex) {
         imgView.setOnClickListener(v -> {
             if (productColors.contains(colorHex)) {
@@ -163,7 +131,8 @@ public class UpdateProduct extends AppCompatActivity {
                 imgView.setAlpha(1f);
             }
         });
-    } //al editar ""
+    }
+
     private void markSelectedSizes() {
         markSizeButton(updatexs, "XS");
         markSizeButton(updates, "S");
@@ -171,6 +140,7 @@ public class UpdateProduct extends AppCompatActivity {
         markSizeButton(updatel, "L");
         markSizeButton(updatexl, "XL");
     } //para visualizar lo que hay en el update
+
     private void markSizeButton(Button btn, String size) {
         if (productSizes.contains(size)) {
             btn.setTextColor(Color.BLACK);
@@ -194,35 +164,37 @@ public class UpdateProduct extends AppCompatActivity {
         img.setAlpha(productColors.contains(hex) ? 1f : 0.3f);
     }
     private void saveChanges() {
-        String newName = updateproductName.getText().toString().trim();
-        String newReference = updateproductRef.getText().toString().trim();
-        double newPrice = Double.parseDouble(updateproductPrice.getText().toString());
+        product.setName(updateproductName.getText().toString().trim());
+        product.setProductRef(updateproductRef.getText().toString().trim());
+        product.setPrice(Double.parseDouble(updateproductPrice.getText().toString()));
 
         if (productColors == null) {
             Toast.makeText(this, "Please select a color", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        product.setColor(productColors);
+        product.setitemsize(productSizes);
+
         if (newImageuri != null) {
-            StorageReference fileRef = storageReference.child("product_image/" + productID + ".jpg");
+            StorageReference fileRef = storageReference.child("product_image/" + product.getId() + ".jpg");
 
             fileRef.putFile(newImageuri).addOnSuccessListener(taskSnapshot ->
                     fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         imgURL = uri.toString();
-                        Product product = new Product(productID, newName, newReference, newPrice, imgURL, productColors, productSizes);
-                        databaseProduct.child(productID).setValue(product).addOnSuccessListener(aVoid -> {
-                            Toast.makeText(this, "Success product updated", Toast.LENGTH_SHORT).show();
-                            finish();
-                        });
+                        product.setImageURL(imgURL);
                     })
             );
-        } else {
-
-            Product product = new Product(productID, newName, newReference, newPrice, imgURL, productColors, productSizes);
-            databaseProduct.child(productID).setValue(product).addOnSuccessListener(aVoid -> {
-                Toast.makeText(this, "Success product updated", Toast.LENGTH_SHORT).show();
-                finish();
-            });
         }
+
+        databaseProduct.child(product.getId()).setValue(product).addOnSuccessListener(aVoid -> {
+            Toast.makeText(this, "Product updated", Toast.LENGTH_SHORT).show();
+
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("product", product);
+            setResult(RESULT_OK, resultIntent);
+
+            finish();
+        });
     }
 }

@@ -14,11 +14,14 @@ public class Product implements Serializable {
     private List<String> color;
     private List<String> itemsize;
 
+    private String seller;
+
     public Product(){
 
     }
 
-    public Product (String id, String n, String r, Double p, String url, List<String> c, List<String> sz){
+
+    public Product (String id, String n, String r, Double p, String url, List<String> c, List<String> sz, String seller){
         this.id = id;
         name = n;
         productRef = r;
@@ -26,6 +29,7 @@ public class Product implements Serializable {
         imageURL = url;
         color = c;
         itemsize = sz;
+        this.seller = seller;
     }
 
     public String getId() {
@@ -84,4 +88,11 @@ public class Product implements Serializable {
         itemsize = itsize;
     }
 
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
 }

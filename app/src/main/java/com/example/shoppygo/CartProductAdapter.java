@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.HashSet;
 import java.util.List;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.ViewHolder> {
@@ -31,12 +32,14 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         }
     }
 
+    private HashSet<String> checkedProducts;
     private List<ProductPair> productList;
     private ICartRecyclerViewListener listener;
 
-    public CartProductAdapter(List<ProductPair> products, ICartRecyclerViewListener listener) {
+    public CartProductAdapter(List<ProductPair> products, HashSet<String> checkedProducts, ICartRecyclerViewListener listener) {
         this.productList = products;
         this.listener = listener;
+        this.checkedProducts = checkedProducts;
     }
 
     @Override
@@ -53,8 +56,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         holder.quantity.setText("" + productPair.cartProduct.getQty());
 
         holder.productImage.setImageURI(Uri.parse(productPair.product.getImageURL()));
+        holder.selected.setChecked(checkedProducts.contains(productPair.product.getId()));
         if (productPair.product.getImageURL() !=null && !productPair.product.getImageURL().isEmpty()){
-            new ProductAdapter.ImageLoadTask(productPair.product.getImageURL(),holder.productImage).execute();
+            new SellerProductAdapter.ImageLoadTask(productPair.product.getImageURL(),holder.productImage).execute();
         }else {
             holder.productImage.setImageResource(android.R.drawable.ic_menu_report_image);
         }
@@ -95,5 +99,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             plus.setOnClickListener(btn -> listener.OnItemIncrement(pair));
         }
     }
+
 }
 

@@ -1,5 +1,6 @@
 package com.example.shoppygo;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -40,6 +41,8 @@ public class AddProduct extends AppCompatActivity {
     StorageReference storageReference;
     Uri imageuri;
 
+    Seller user;
+
     List<String> selectedColor = new ArrayList<>();
     List<String> selectedSizes = new ArrayList<>();
 
@@ -63,6 +66,8 @@ public class AddProduct extends AppCompatActivity {
         colorGray = findViewById(R.id.addcolorGray);
         colorBeige = findViewById(R.id.addcolorBeige);
 
+        user = (Seller) getIntent().getSerializableExtra("user");
+
         SelectImage = findViewById(R.id.SelectImagebtn);
 
         addxs = findViewById(R.id.addxs);
@@ -76,22 +81,8 @@ public class AddProduct extends AppCompatActivity {
         databaseProduct = FirebaseDatabase.getInstance().getReference("products");
         storageReference = FirebaseStorage.getInstance().getReference("product_image");
 
-
-
-
-        SelectImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImageLauncher.launch("image/*");
-            }
-        });
-
-        addbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveProduct();
-            }
-        });
+        SelectImage.setOnClickListener(v -> selectImageLauncher.launch("image/*"));
+        addbtn.setOnClickListener(v -> saveProduct());
 
 
         addxs.setOnClickListener(v -> editSize(addxs));
@@ -162,7 +153,6 @@ public class AddProduct extends AppCompatActivity {
         String reference = addproductRef.getText().toString().trim();
         String priceStr = addproductPrice.getText().toString().toString();
 
-
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(reference) || TextUtils.isEmpty(priceStr) || imageuri == null) {
             Toast.makeText(this, "All fields must be completed", Toast.LENGTH_SHORT).show();
             return;
@@ -187,9 +177,21 @@ public class AddProduct extends AppCompatActivity {
                 fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                     String imageUrl = uri.toString();
 
-                    Product product = new Product(id, name, reference, price, imageUrl, selectedColor, selectedSizes);
+                    Product product = new Product(id, name, reference, price, imageUrl, selectedColor, selectedSizes, user.getId());
                     databaseProduct.child(id).setValue(product).addOnSuccessListener(aVoid -> {
                         Toast.makeText(this, "Success product added", Toast.LENGTH_SHORT).show();
+
+                        user.getProducts().add(product.getId());
+
+                        FirebaseDatabase.getInstance().getReference("Users")
+                                .child(user.getId()).setValue(user);
+
+
+                        Intent result = new Intent();
+                        result.putExtra("product", product);
+                        result.putExtra("user", user);
+
+                        setResult(RESULT_OK, result);
                         finish();
                     });
 

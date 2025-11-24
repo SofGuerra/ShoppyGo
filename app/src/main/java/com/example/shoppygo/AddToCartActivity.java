@@ -92,7 +92,7 @@ public class AddToCartActivity extends AppCompatActivity {
 
         prodimage.setImageURI(Uri.parse(product.getImageURL()));
         if (product.getImageURL() !=null && !product.getImageURL().isEmpty()){
-            new ProductAdapter.ImageLoadTask(product.getImageURL(), prodimage).execute();
+            new SellerProductAdapter.ImageLoadTask(product.getImageURL(), prodimage).execute();
         }else {
             prodimage.setImageResource(android.R.drawable.ic_menu_report_image);
         }

@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-public class MainActivity extends AppCompatActivity {
+public class SellerActivity extends AppCompatActivity {
     ImageView homeBtn, catalogBtn, profileBtn;
+
+    public Seller user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,26 +24,28 @@ public class MainActivity extends AppCompatActivity {
         catalogBtn = findViewById(R.id.nav_orders);
         profileBtn = findViewById(R.id.nav_profile);
 
-        loadFragment(new SellerDashboardFragment());
+        loadFragment(new SellerDashboardFragment(this));
+
+        user = (Seller) getIntent().getSerializableExtra("user");
 
         homeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new SellerDashboardFragment());
+                loadFragment(new SellerDashboardFragment(SellerActivity.this));
             }
         });
 
         catalogBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new CatalogFragment());
+                loadFragment(new SellerCatalogFragment(SellerActivity.this));
             }
         });
 
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new SellerProfileFragment());
+                loadFragment(new SellerProfileFragment(SellerActivity.this));
             }
         });
     }

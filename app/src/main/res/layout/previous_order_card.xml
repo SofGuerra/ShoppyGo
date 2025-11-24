@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Top section: basic order info -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -41,31 +42,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-
+            <!-- Cada producto se agregará dinámicamente -->
+            <!-- Ejemplo:
+                nombre del producto - qty
+                color: blue
+                size: L
+             -->
 
         </LinearLayout>
 
 
         <Button
-            android:id="@+id/cancelOrder"
+            android:id="@+id/orderAgain"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:layout_marginTop="6dp"
             android:backgroundTint="@color/red"
-            android:text="Cancel Order"
+            android:text="Order Again"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
 
-        <Spinner
-            android:id="@+id/orderStatusSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="8dp"
-            />
+
     </LinearLayout>
 
+    <!-- Bottom section: shipping info -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,14 +80,6 @@
             android:textStyle="bold"
             android:padding="10dp"
             android:text="Address: 1234 Sherbrooke st" />
-
-        <TextView
-            android:id="@+id/tvCustomerName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:padding="10dp"
-            android:text="Customer: Sofia Guerra" />
 
     </LinearLayout>
 

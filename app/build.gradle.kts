@@ -61,5 +61,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation ("com.stripe:stripe-android:22.2.0")
     implementation ("com.stripe:financial-connections:22.2.0")
+    implementation("com.android.volley:volley:1.2.1")
 
 }

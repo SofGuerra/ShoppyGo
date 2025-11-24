@@ -50,32 +50,30 @@
                 android:src="@drawable/ic_filter" />
 
             <Button
+                android:id="@+id/shirtbtnfilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Price"
+                android:text="Shirt"
                 android:backgroundTint="@color/green"
                 android:layout_marginStart="10dp" />
 
             <Button
+                android:id="@+id/jacketbtnfilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Colour"
+                android:text="Jacket"
                 android:backgroundTint="@color/green"
                 android:layout_marginStart="10dp" />
 
             <Button
+                android:id="@+id/dressbtnfilter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sizes"
+                android:text="Dress"
                 android:backgroundTint="@color/green"
                 android:layout_marginStart="10dp" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⭐ ⭐ ⭐"
-                android:backgroundTint="@color/green"
-                android:layout_marginStart="10dp" />
+
 
         </LinearLayout>
     </HorizontalScrollView>

@@ -4,10 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,46 +17,41 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
+public class PreviousOrderAdapter extends RecyclerView.Adapter<PreviousOrderAdapter.OrderViewHolder> {
 
     private Context context;
     private ArrayList<Order> orderList;
-    private OnOrderActionListener listener;
+    private IOrderActionListener listener;
 
-    private HashMap<String, Product> allprod;
+    private HashMap<String, Product> allProducts;
 
-    public interface OnOrderActionListener {
-        void OnOrderCanceled (Order order);
+    public interface IOrderActionListener {
+        void onOrderAgain(Order order);
     }
 
-    public OrderAdapter(Context c, ArrayList<Order> list, OnOrderActionListener l, HashMap<String, Product> allprod) {
+    public PreviousOrderAdapter(Context c, ArrayList<Order> list, IOrderActionListener l, HashMap<String, Product> allProducts) {
         context = c;
         orderList = list;
         listener = l;
-        this.allprod = allprod;
+        this.allProducts = allProducts;
     }
 
     public static class OrderViewHolder extends RecyclerView.ViewHolder {
         TextView orderId;
         TextView orderDate;
-        TextView customerName;
         TextView address;
         TextView itemsCount;
         LinearLayout productsContainer;
-        Button cancelOrderBtn;
-        Spinner statusSpinner;
+        Button orderAgain;
 
         public OrderViewHolder(@NonNull View itemView) {
             super(itemView);
             orderId = itemView.findViewById(R.id.tvOrderId);
             orderDate = itemView.findViewById(R.id.tvOrderDate);
-            customerName = itemView.findViewById(R.id.tvCustomerName);
             address = itemView.findViewById(R.id.tvAddress);
             itemsCount = itemView.findViewById(R.id.tvItemsCount);
-            cancelOrderBtn = itemView.findViewById(R.id.cancelOrder);
             productsContainer = itemView.findViewById(R.id.productsContainer);
-            statusSpinner = itemView.findViewById(R.id.orderStatusSpinner);
-
+            orderAgain = itemView.findViewById(R.id.orderAgain);
         }
     }
 
@@ -66,18 +59,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public OrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.order_item, parent, false);
+                .inflate(R.layout.previous_order_card, parent, false);
         return new OrderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position) {
-
         Order order = orderList.get(position);
 
         holder.orderId.setText("Order ID: " + order.getId());
 
-        // Date
         if (order.getDate() != null) {
             Date date = new Date(order.getDate());
             DateFormat df = DateFormat.getDateTimeInstance(
@@ -90,40 +81,42 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
             holder.orderDate.setText("Date: -");
         }
 
-        holder.cancelOrderBtn.setOnClickListener(b -> listener.OnOrderCanceled(order));
-
-        holder.customerName.setText("Customer: " + order.getCustomerName());
+        // Address
         holder.address.setText("Address: " + order.getAddress());
 
+        // Products count
         int count = (order.getItems() != null) ? order.getItems().size() : 0;
         holder.itemsCount.setText("Items: " + count);
 
+        // Fill product list dynamically
         holder.productsContainer.removeAllViews();
 
-        if (order.getItems() != null) {
+        if (order.getItems() != null && !order.getItems().isEmpty()) {
             for (CartProduct item : order.getItems()) {
 
-                Product product = allprod.get(item.getProductId());
+                Product product = allProducts.get(item.getProductId());
 
-                TextView tv = new TextView(context);
-                tv.setText(product.getName() + " - " + item.getQty());
-                tv.setPadding(0, 4, 0, 4);
-                tv.setTextSize(14);
-                holder.productsContainer.addView(tv);
+                TextView productTitle = new TextView(context);
+                productTitle.setText(product.getName() + " - " + item.getQty());
+                productTitle.setTextSize(14);
+                productTitle.setPadding(0, 10, 0, 0);
+                holder.productsContainer.addView(productTitle);
+
+                TextView color = new TextView(context);
+                color.setText("Color: " + item.getColor());
+                color.setTextSize(13);
+                color.setPadding(20, 2, 0, 0);
+                holder.productsContainer.addView(color);
+
+                TextView size = new TextView(context);
+                size.setText("Size: " + item.getSize());
+                size.setTextSize(13);
+                size.setPadding(20, 2, 0, 10);
+                holder.productsContainer.addView(size);
             }
         }
 
-        String[] statuses = {"Preparing", "Shipped", "Delivered"};
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                context,
-                android.R.layout.simple_spinner_item,
-                statuses
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        holder.statusSpinner.setAdapter(adapter);
-
+        holder.orderAgain.setOnClickListener(v -> listener.onOrderAgain(order));
     }
 
     @Override
@@ -131,3 +124,4 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         return orderList.size();
     }
 }
+

@@ -39,7 +39,7 @@ public class CustomerProductAdapter extends RecyclerView.Adapter<CustomerProduct
 
         holder.productImage.setImageResource(android.R.drawable.ic_menu_report_image);
         if (product.getImageURL() !=null && !product.getImageURL().isEmpty()){
-            new ProductAdapter.ImageLoadTask(product.getImageURL(),holder.productImage).execute();
+            new SellerProductAdapter.ImageLoadTask(product.getImageURL(),holder.productImage).execute();
         }
 
         holder.addToCart.setOnClickListener(e -> listener.OnAddToCart(product));

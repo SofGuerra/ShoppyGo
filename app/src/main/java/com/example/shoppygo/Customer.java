@@ -9,13 +9,11 @@ public class Customer extends User {
     private String name;
     private String address;
     private ArrayList<CartProduct> cartItems;
-    private ArrayList<String> orders;
     private ArrayList<String> paymentMethods;
 
     public Customer() {
         super();
         this.cartItems = new ArrayList<>();
-        this.orders = new ArrayList<>();
         this.paymentMethods = new ArrayList<>();
     }
 
@@ -24,7 +22,6 @@ public class Customer extends User {
         this.name = name;
         this.address = address;
         this.cartItems = new ArrayList<>();
-        this.orders = new ArrayList<>();
         this.paymentMethods = new ArrayList<>();
     }
 
@@ -52,13 +49,6 @@ public class Customer extends User {
         this.cartItems = cartItems;
     }
 
-    public ArrayList<String> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(ArrayList<String> orders) {
-        this.orders = orders;
-    }
 
     public ArrayList<String> getPaymentMethods() {
         return paymentMethods;

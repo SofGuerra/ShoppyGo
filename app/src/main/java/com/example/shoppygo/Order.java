@@ -11,16 +11,18 @@ public class Order implements Serializable {
     private List<CartProduct> items;
     private String customerName;
     private String address;
+    private String customerId;
 
     public Order() {
 
     }
 
-    public Order(String id, Long date, List<CartProduct> items, String customerName, String address) {
+    public Order(String id, String customerId, Long date, List<CartProduct> items, String customerName, String address) {
         this.id = id;
         this.date = date;
         this.items = items;
         this.customerName = customerName;
+        this.customerId = customerId;
         this.address = address;
     }
 
@@ -62,5 +64,13 @@ public class Order implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

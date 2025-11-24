@@ -52,7 +52,7 @@ public class CustomerActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new SellerProfileFragment());
+                loadFragment(new CustomerProfileFragment(CustomerActivity.this));
             }
         });
     }

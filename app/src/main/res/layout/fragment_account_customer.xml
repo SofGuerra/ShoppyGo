@@ -1,61 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_marginHorizontal="20dp"
     android:orientation="vertical"
-    android:gravity="center"
-    android:layout_margin="20dp">
+    android:layout_marginTop="40dp"
+    android:layout_marginBottom="20dp"
+    >
 
-    <EditText
-        android:id="@+id/customer_name"
+    <ImageButton
+        android:id="@+id/logoutbtn"
+        android:src="@drawable/logout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:backgroundTint="@color/white"
+        android:layout_marginTop="7dp"
+        />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name:"
-        android:layout_marginBottom="20dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/customer_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Address:"
-        android:layout_marginBottom="20dp"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
 
+        <TextView
+            android:id="@+id/welcomecompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome "
+            android:textSize="30dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Please select your payment method here:"
-        android:layout_marginBottom="20dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account Settings"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_marginVertical="20dp"/>
 
-    <Spinner
-        android:id="@+id/pay_method"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"/>
+        <TextView
+            android:id="@+id/lognsecbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login Security"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@android:color/darker_gray"/>
 
-
-    <Button
-        android:id="@+id/updateProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:text="Update changes"/>
-
-    <Button
-        android:id="@+id/placed_orders"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:text="See placed orders"/>
-
-    <Button
-        android:id="@+id/buy_again"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:text="Buy Again"/>
+        <TextView
+            android:id="@+id/accountbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Account"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@android:color/darker_gray"/>
 
 
+        <FrameLayout
+            android:id="@+id/fragmentCont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"/>
 
-</LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

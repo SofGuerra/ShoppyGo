@@ -14,9 +14,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,7 +21,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -136,9 +132,9 @@ public class RegisterActivity extends AppCompatActivity {
                     DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
                     String id = task.getResult().getUser().getUid();
                     if (isSeller) {
-                        Seller seller = new Seller(id, companyname, email);
+                        Seller seller = new Seller(id, email,companyname);
                         usersRef.child(id).setValue(seller);
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        Intent intent = new Intent(RegisterActivity.this, SellerActivity.class);
                         intent.putExtra("user", seller);
                         startActivity(intent);
                         finish();

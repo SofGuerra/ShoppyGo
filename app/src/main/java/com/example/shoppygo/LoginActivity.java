@@ -11,9 +11,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -97,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 String role = snapshot.child("role").getValue(String.class);
                 if ("seller".equals(role)) {
                     Seller seller = snapshot.getValue(Seller.class);
-                    Intent intent = new Intent(this, MainActivity.class);
+                    Intent intent = new Intent(this, SellerActivity.class);
                     intent.putExtra("user", seller);
                     startActivity(intent);
                     finish();
