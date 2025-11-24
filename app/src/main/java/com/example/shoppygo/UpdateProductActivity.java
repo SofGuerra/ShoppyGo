@@ -122,6 +122,8 @@ public class UpdateProductActivity extends AppCompatActivity {
     }
 
     private void setupColorClick(ImageView imgView, String colorHex) {
+        GradientDrawable drawable = (GradientDrawable) imgView.getBackground();
+        drawable.setColor(Color.parseColor(colorHex));
         imgView.setOnClickListener(v -> {
             if (productColors.contains(colorHex)) {
                 productColors.remove(colorHex);
@@ -164,14 +166,33 @@ public class UpdateProductActivity extends AppCompatActivity {
         img.setAlpha(productColors.contains(hex) ? 1f : 0.3f);
     }
     private void saveChanges() {
-        product.setName(updateproductName.getText().toString().trim());
-        product.setProductRef(updateproductRef.getText().toString().trim());
-        product.setPrice(Double.parseDouble(updateproductPrice.getText().toString()));
+        String newName = updateproductName.getText().toString().trim();
+        if (newName.isEmpty()) {
+            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        product.setName(newName);
+
+        //added validations
+        String newRef = updateproductRef.getText().toString().trim();
+        if (newRef.isEmpty()) {
+            Toast.makeText(this, "Reference cannot be empty", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        product.setProductRef(newRef);
+
 
         if (productColors == null) {
             Toast.makeText(this, "Please select a color", Toast.LENGTH_SHORT).show();
             return;
         }
+        try{
+            product.setPrice(Double.parseDouble(updateproductPrice.getText().toString()));
+        } catch (Exception exception){
+            Toast.makeText(this, "Invalid Price", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
 
         product.setColor(productColors);
         product.setitemsize(productSizes);

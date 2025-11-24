@@ -36,14 +36,14 @@ public class SellerProfileFragment extends Fragment {
         Company = view.findViewById(R.id.welcomecompany);
         lognsecbtn = view.findViewById(R.id.lognsecbtn);
         accountbtn = view.findViewById(R.id.accountbtn);
-        reviewsbtn = view.findViewById(R.id.reviewsbtn);
+        //reviewsbtn = view.findViewById(R.id.reviewsbtn);
         logout = view.findViewById(R.id.logoutbtn);
 
         Company.setText("Welcome " + parent.user.getCompanyName());
 
         lognsecbtn.setOnClickListener(v -> loadFragment(new LoginSecurityFragment()));
         accountbtn.setOnClickListener(v -> loadFragment(new SellerAccountFragment(parent)));
-        reviewsbtn.setOnClickListener(v -> loadFragment(new ReviewsFragment()));
+        //reviewsbtn.setOnClickListener(v -> loadFragment(new ReviewsFragment()));
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
