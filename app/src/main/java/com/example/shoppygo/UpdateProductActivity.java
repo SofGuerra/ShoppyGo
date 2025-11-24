@@ -36,7 +36,6 @@ public class UpdateProductActivity extends AppCompatActivity {
     DatabaseReference databaseProduct;
     StorageReference storageReference;
     Uri newImageuri;
-
     Product product;
 
     @Override
@@ -74,13 +73,26 @@ public class UpdateProductActivity extends AppCompatActivity {
 
         product =(Product) getIntent().getSerializableExtra("product");
 
+        if (product != null) {
 
-        updateImagebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectImageLauncher.launch("image/*");
+            updateproductName.setText(product.getName());
+            updateproductRef.setText(product.getProductRef());
+            updateproductPrice.setText(String.valueOf(product.getPrice()));
+
+            productColors = new ArrayList<>(product.getColor());
+            productSizes = new ArrayList<>(product.getitemsize());
+
+            imgURL = product.getImageURL();
+
+            if (imgURL != null && !imgURL.isEmpty()) {
+                Glide.with(this).load(imgURL).into(updateimageProd);
             }
-        });
+
+            markSelectedColors();
+            markSelectedSizes();
+        }
+
+        updateImagebtn.setOnClickListener(v -> selectImageLauncher.launch("image/*"));
 
         updatexs.setOnClickListener(v -> editSize(updatexs));
         updates.setOnClickListener(v -> editSize(updates));
@@ -122,8 +134,6 @@ public class UpdateProductActivity extends AppCompatActivity {
     }
 
     private void setupColorClick(ImageView imgView, String colorHex) {
-        GradientDrawable drawable = (GradientDrawable) imgView.getBackground();
-        drawable.setColor(Color.parseColor(colorHex));
         imgView.setOnClickListener(v -> {
             if (productColors.contains(colorHex)) {
                 productColors.remove(colorHex);
@@ -167,25 +177,28 @@ public class UpdateProductActivity extends AppCompatActivity {
     }
     private void saveChanges() {
         String newName = updateproductName.getText().toString().trim();
+        String newRef = updateproductRef.getText().toString().trim();
+
+        //added validations
         if (newName.isEmpty()) {
             Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        product.setName(newName);
 
-        //added validations
-        String newRef = updateproductRef.getText().toString().trim();
+
         if (newRef.isEmpty()) {
             Toast.makeText(this, "Reference cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        product.setProductRef(newRef);
 
+        product.setName(newName);
+        product.setProductRef(newRef);
 
         if (productColors == null) {
             Toast.makeText(this, "Please select a color", Toast.LENGTH_SHORT).show();
             return;
         }
+
         try{
             product.setPrice(Double.parseDouble(updateproductPrice.getText().toString()));
         } catch (Exception exception){
@@ -204,18 +217,25 @@ public class UpdateProductActivity extends AppCompatActivity {
                     fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                         imgURL = uri.toString();
                         product.setImageURL(imgURL);
+
+                        databaseProduct.child(product.getId()).setValue(product);
                     })
             );
+        } else {
+            databaseProduct.child(product.getId()).setValue(product);
         }
 
-        databaseProduct.child(product.getId()).setValue(product).addOnSuccessListener(aVoid -> {
-            Toast.makeText(this, "Product updated", Toast.LENGTH_SHORT).show();
-
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("product", product);
-            setResult(RESULT_OK, resultIntent);
-
-            finish();
-        });
+        Toast.makeText(this, "Success product updated", Toast.LENGTH_SHORT).show();
+        finish();
+//
+//        databaseProduct.child(product.getId()).setValue(product).addOnSuccessListener(aVoid -> {
+//
+//
+//            Intent resultIntent = new Intent();
+//            resultIntent.putExtra("product", product);
+//            setResult(RESULT_OK, resultIntent);
+//
+//            finish();
+//        });
     }
 }
